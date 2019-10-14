@@ -1,0 +1,1053 @@
+/*! =======================================================
+                      VERSION  10.3.1
+========================================================= */
+/*! =========================================================
+ * bootstrap-slider.js
+ *
+ * Maintainers:
+ *		Kyle Kemp
+ *			- Twitter: @seiyria
+ *			- Github:  seiyria
+ *		Rohit Kalkur
+ *			- Twitter: @Rovolutionary
+ *			- Github:  rovolution
+ *
+ * =========================================================
+  *
+ * bootstrap-slider is released under the MIT License
+ * Copyright (c) 2017 Kyle Kemp, Rohit Kalkur, and contributors
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * ========================================================= */
+.slider {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
+.slider.slider-horizontal {
+  width: 210px;
+  height: 20px;
+}
+.slider.slider-horizontal .slider-track {
+  height: 10px;
+  width: 100%;
+  margin-top: -5px;
+  top: 50%;
+  left: 0;
+}
+.slider.slider-horizontal .slider-selection,
+.slider.slider-horizontal .slider-track-low,
+.slider.slider-horizontal .slider-track-high {
+  height: 100%;
+  top: 0;
+  bottom: 0;
+}
+.slider.slider-horizontal .slider-tick,
+.slider.slider-horizontal .slider-handle {
+  margin-left: -10px;
+}
+.slider.slider-horizontal .slider-tick.triangle,
+.slider.slider-horizontal .slider-handle.triangle {
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  border-width: 0 10px 10px 10px;
+  width: 0;
+  height: 0;
+  border-bottom-color: #2e6da4;
+  margin-top: 0;
+}
+.slider.slider-horizontal .slider-tick-container {
+  white-space: nowrap;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.slider.slider-horizontal .slider-tick-label-container {
+  white-space: nowrap;
+  margin-top: 20px;
+}
+.slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
+  padding-top: 4px;
+  display: inline-block;
+  text-align: center;
+}
+.slider.slider-horizontal .tooltip {
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+.slider.slider-horizontal.slider-rtl .slider-track {
+  left: initial;
+  right: 0;
+}
+.slider.slider-horizontal.slider-rtl .slider-tick,
+.slider.slider-horizontal.slider-rtl .slider-handle {
+  margin-left: initial;
+  margin-right: -10px;
+}
+.slider.slider-horizontal.slider-rtl .slider-tick-container {
+  left: initial;
+  right: 0;
+}
+.slider.slider-horizontal.slider-rtl .tooltip {
+  -ms-transform: translateX(50%);
+  transform: translateX(50%);
+}
+.slider.slider-vertical {
+  height: 210px;
+  width: 20px;
+}
+.slider.slider-vertical .slider-track {
+  width: 10px;
+  height: 100%;
+  left: 25%;
+  top: 0;
+}
+.slider.slider-vertical .slider-selection {
+  width: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+.slider.slider-vertical .slider-track-low,
+.slider.slider-vertical .slider-track-high {
+  width: 100%;
+  left: 0;
+  right: 0;
+}
+.slider.slider-vertical .slider-tick,
+.slider.slider-vertical .slider-handle {
+  margin-top: -10px;
+}
+.slider.slider-vertical .slider-tick.triangle,
+.slider.slider-vertical .slider-handle.triangle {
+  border-width: 10px 0 10px 10px;
+  width: 1px;
+  height: 1px;
+  border-left-color: #2e6da4;
+  border-right-color: #2e6da4;
+  margin-left: 0;
+  margin-right: 0;
+}
+.slider.slider-vertical .slider-tick-label-container {
+  white-space: nowrap;
+}
+.slider.slider-vertical .slider-tick-label-container .slider-tick-label {
+  padding-left: 4px;
+}
+.slider.slider-vertical .tooltip {
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.slider.slider-vertical.slider-rtl .slider-track {
+  left: initial;
+  right: 25%;
+}
+.slider.slider-vertical.slider-rtl .slider-selection {
+  left: initial;
+  right: 0;
+}
+.slider.slider-vertical.slider-rtl .slider-tick.triangle,
+.slider.slider-vertical.slider-rtl .slider-handle.triangle {
+  border-width: 10px 10px 10px 0;
+}
+.slider.slider-vertical.slider-rtl .slider-tick-label-container .slider-tick-label {
+  padding-left: initial;
+  padding-right: 4px;
+}
+.slider.slider-disabled .slider-handle {
+  background-image: -webkit-linear-gradient(top, #dfdfdf 0%, #bebebe 100%);
+  background-image: -o-linear-gradient(top, #dfdfdf 0%, #bebebe 100%);
+  background-image: linear-gradient(to bottom, #dfdfdf 0%, #bebebe 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdfdfdf', endColorstr='#ffbebebe', GradientType=0);
+}
+.slider.slider-disabled .slider-track {
+  background-image: -webkit-linear-gradient(top, #e5e5e5 0%, #e9e9e9 100%);
+  background-image: -o-linear-gradient(top, #e5e5e5 0%, #e9e9e9 100%);
+  background-image: linear-gradient(to bottom, #e5e5e5 0%, #e9e9e9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe5e5e5', endColorstr='#ffe9e9e9', GradientType=0);
+  cursor: not-allowed;
+}
+.slider input {
+  display: none;
+}
+.slider .tooltip {
+  pointer-events: none;
+}
+.slider .tooltip.top {
+  margin-top: -36px;
+}
+.slider .tooltip-inner {
+  white-space: nowrap;
+  max-width: none;
+}
+.slider .hide {
+  display: none;
+}
+.slider-track {
+  position: absolute;
+  cursor: pointer;
+  background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #f9f9f9 100%);
+  background-image: -o-linear-gradient(top, #f5f5f5 0%, #f9f9f9 100%);
+  background-image: linear-gradient(to bottom, #f5f5f5 0%, #f9f9f9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#fff9f9f9', GradientType=0);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+.slider-selection {
+  position: absolute;
+  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%);
+  background-image: -o-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%);
+  background-image: linear-gradient(to bottom, #f9f9f9 0%, #f5f5f5 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff9f9f9', endColorstr='#fff5f5f5', GradientType=0);
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+.slider-selection.tick-slider-selection {
+  background-image: -webkit-linear-gradient(top, #8ac1ef 0%, #82b3de 100%);
+  background-image: -o-linear-gradient(top, #8ac1ef 0%, #82b3de 100%);
+  background-image: linear-gradient(to bottom, #8ac1ef 0%, #82b3de 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8ac1ef', endColorstr='#ff82b3de', GradientType=0);
+}
+.slider-track-low,
+.slider-track-high {
+  position: absolute;
+  background: transparent;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+.slider-handle {
+  position: absolute;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  background-color: #337ab7;
+  background-image: -webkit-linear-gradient(top, #337ab7 0%, #2e6da4 100%);
+  background-image: -o-linear-gradient(top, #337ab7 0%, #2e6da4 100%);
+  background-image: linear-gradient(to bottom, #337ab7 0%, #2e6da4 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff2e6da4', GradientType=0);
+  filter: none;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+  border: 0px solid transparent;
+}
+.slider-handle:hover {
+  cursor: pointer;
+}
+.slider-handle.round {
+  border-radius: 50%;
+}
+.slider-handle.triangle {
+  background: transparent none;
+}
+.slider-handle.custom {
+  background: transparent none;
+}
+.slider-handle.custom::before {
+  line-height: 20px;
+  font-size: 20px;
+  content: '\2605';
+  color: #726204;
+}
+.slider-tick {
+  position: absolute;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%);
+  background-image: -o-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%);
+  background-image: linear-gradient(to bottom, #f9f9f9 0%, #f5f5f5 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff9f9f9', endColorstr='#fff5f5f5', GradientType=0);
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  filter: none;
+  opacity: 0.8;
+  border: 0px solid transparent;
+}
+.slider-tick.round {
+  border-radius: 50%;
+}
+.slider-tick.triangle {
+  background: transparent none;
+}
+.slider-tick.custom {
+  background: transparent none;
+}
+.slider-tick.custom::before {
+  line-height: 20px;
+  font-size: 20px;
+  content: '\2605';
+  color: #726204;
+}
+.slider-tick.in-selection {
+  background-image: -webkit-linear-gradient(top, #8ac1ef 0%, #82b3de 100%);
+  background-image: -o-linear-gradient(top, #8ac1ef 0%, #82b3de 100%);
+  background-image: linear-gradient(to bottom, #8ac1ef 0%, #82b3de 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8ac1ef', endColorstr='#ff82b3de', GradientType=0);
+  opacity: 1;
+}
+@font-face {
+  font-family: 'Bebas Neue';
+  src: local("Bebas Neue Thin"), local("BebasNeue-Thin"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneuethin.woff2") format("woff2"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneuethin.woff") format("woff"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneuethin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: local("Bebas Neue Light"), local("BebasNeue-Light"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneuelight.woff2") format("woff2"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneuelight.woff") format("woff"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneuelight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: local("Bebas Neue Book"), local("BebasNeueBook"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneuebook.woff2") format("woff2"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneuebook.woff") format("woff"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneuebook.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: local("Bebas Neue Regular"), local("BebasNeueRegular"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneueregular.woff2") format("woff2"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneueregular.woff") format("woff"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneueregular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: local("Bebas Neue Bold"), local("BebasNeueBold"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneuebold.woff2") format("woff2"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneuebold.woff") format("woff"), url("//kuwait-ems.nexfit.com/fonts/bebasneue/bebasneuebold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal; }
+
+textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active {
+  outline: 0px !important;
+  -webkit-appearance: none; }
+
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  direction: rtl; }
+
+body {
+  background: #eee url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background.png") no-repeat;
+  background-size: cover;
+  background-position-x: center;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif; }
+
+.app {
+  max-width: 1322px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 20px auto 0;
+  min-height: 100vh; }
+.app__header {
+  direction: ltr;
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between; }
+.app__main {
+  -webkit-box-flex: 8;
+  -ms-flex: 8;
+  flex: 8;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+
+.header__logo-img {
+  max-width: 312px; }
+
+.header__instagram-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-decoration: none;
+  direction: initial; }
+
+.header__instagram-logo {
+  height: 31px; }
+
+.header__instagram-account {
+  direction: ltr;
+  margin-left: 10px;
+  color: #ffffff;
+  font-family: Helvetica, sans-serif;
+  font-size: 28px; }
+
+.form {
+  margin: 50px auto;
+  width: 80%;
+  border-radius: 20px;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 53px 90.09px 26.91px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 53px 90.09px 26.91px rgba(0, 0, 0, 0.25); }
+.form-header {
+  padding: 35px 60px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: transparent; }
+.form-header__title-container {
+  text-transform: uppercase;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-family: "Bebas Neue", Arial, sans-serif; }
+.form-header__title {
+  font-size: 61px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-left: 20px; }
+.form-header__part {
+  margin-left: 15px;
+  font-size: 39px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #ffffff; }
+.form-header__description {
+  color: #ffffff;
+  margin-top: 5px;
+  font-size: 39px; }
+.form-header .form-header__progress-bar {
+  direction: initial;
+  height: 5px;
+  background: #fff;
+  border-radius: 10px;
+  margin-top: 25px; }
+.form-header .form-header__progress {
+  height: 100%;
+  width: 20%;
+  background: #e11d1d;
+  border-radius: 10px; }
+.form-header .form-header__progress--40 {
+  width: 40%; }
+.form-header .form-header__progress--60 {
+  width: 60%; }
+.form-header .form-header__progress--80 {
+  width: 80%; }
+.form-header .form-header__progress--100 {
+  width: 100%; }
+.form-header--first-page {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background_first-page.png"); }
+.form-header--second-page {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background_second-page.png"); }
+.form-header--third-page {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background_third-page.png"); }
+.form-header--fourth-page {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background_fourth-page.png"); }
+.form-header--fifth-page {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background_fifth-page.png"); }
+.form-header--final-page {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background_final-page.png");
+  padding: 125px 60px; }
+.form-body {
+  padding: 35px 60px; }
+.form-input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-top: 30px;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
+.form-input--subtitle {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-bottom: 1px solid #e1e1e1;
+  padding-bottom: 28px;
+  margin-bottom: 30px; }
+.form-input--range-one-line {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+.form-input--range-one-line .slider {
+  -ms-flex-preferred-size: 80%;
+  flex-basis: 80%; }
+.form-input--column {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+.form-input__label {
+  -ms-flex-preferred-size: 35%;
+  flex-basis: 35%;
+  font-size: 25px; }
+.form-input__input {
+  -ms-flex-preferred-size: 65%;
+  flex-basis: 65%;
+  -webkit-box-shadow: inset 0px 0px 6.09px 0.91px rgba(35, 31, 32, 0.17);
+  box-shadow: inset 0px 0px 6.09px 0.91px rgba(35, 31, 32, 0.17);
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; }
+.form-input__input.error {
+  -webkit-box-shadow: inset 0px 0px 6.09px 0.91px red;
+  box-shadow: inset 0px 0px 6.09px 0.91px red; }
+.form-input__subtitle {
+  font-size: 25px;
+  font-weight: bold; }
+.form-input__range-left, .form-input__range-right {
+  -ms-flex-preferred-size: 25%;
+  flex-basis: 25%;
+  font-size: 22px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; }
+.form-input__range-image {
+  background-position: center;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  min-height: 60px;
+  height: 60px;
+  min-width: 60px;
+  width: 60px;
+  cursor: pointer; }
+.form-input__range-image--fat {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/Q12174_noun_5364_ccAnaFelix_obesity.svg"); }
+.form-input__range-image--landr {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/muscular-gymnast-silhouette.svg"); }
+.form-input__range-image--exhausted {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/exhausted-man.svg");
+  min-height: 40px;
+  height: 40px;
+  min-width: 40px;
+  width: 40px; }
+.form-input__range-image--runner {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/runner.svg");
+  min-height: 40px;
+  height: 40px;
+  min-width: 40px;
+  width: 40px; }
+.form-input__range-left:not(.form-input__range-left--with-image) {
+  direction: initial; }
+.form-input__range-left {
+  padding-left: 25px;
+  text-align: right;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end; }
+.form-input__range-left--with-image {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between; }
+.form-input__range-right {
+  padding-right: 25px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between; }
+.form-input__submit {
+  margin-top: 15px;
+  border: 1px solid #ff0000;
+  background-color: #eb1616;
+  border-radius: 50px;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 15px 60px;
+  text-transform: uppercase;
+  -webkit-box-shadow: 0px 0px 30px -1px #eb1616;
+  box-shadow: 0px 0px 30px -1px #eb1616;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; }
+.form-input__checkbox-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-preferred-size: 65%;
+  flex-basis: 65%; }
+.form-input__checkbox-area--full {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+  -ms-flex-preferred-size: 100%;
+  flex-basis: 100%;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+  width: 100%; }
+.form-input__checkbox-area--center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center; }
+.form-input__checkbox-label {
+  font-size: 22px;
+  text-align: center; }
+.form-input__checkbox-label--first {
+  padding-top: 10px; }
+.form-input__checkbox-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 10px;
+  -ms-flex-preferred-size: 20%;
+  flex-basis: 20%; }
+.form-input__checkbox-container--with-hight-paddins {
+  padding: 20px 20px; }
+.form-input__checkbox-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+.form-input__checkbox-item:nth-child(n + 1) {
+  margin-left: 10px; }
+.form-input__checkbox-checker {
+  background-color: #dddddd;
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/man-gray.svg");
+  background-position: center;
+  background-size: auto 60%;
+  background-repeat: no-repeat;
+  padding: 50px;
+  border-radius: 10px;
+  cursor: pointer; }
+.form-input__checkbox-checker--sex-woman {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/girl-gray.svg"); }
+.form-input__checkbox-checker--clock {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/clock-circular-outline-gray.svg"); }
+.form-input__checkbox-checker--family {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/family-gray.svg"); }
+.form-input__checkbox-checker--question-man {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/man-thinking-gray.svg"); }
+.form-input__checkbox-checker--money {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/euro-bag-gray.svg"); }
+.form-input__checkbox-checker--quit {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/exit-gray.svg"); }
+.form-input__checkbox-checker--wheel {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/male-cartoon-on-wheel-chair-gray.svg"); }
+.form-input__checkbox-checker--fitness {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/male-bodybuilder-silhouette-flexing-muscles-gray.svg"); }
+.form-input__checkbox-checker--partner {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/female-and-male-shapes-silhouettes-gray.svg"); }
+.form-input__checkbox-checker--kids {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/basketball-gray.svg"); }
+.form-input__checkbox-checker--parents {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/old-gyus.svg"); }
+.form-input__checkbox-checker--friends {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/group-of-men-gray.svg"); }
+.form-input__checkbox-checker--b_s {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/sister-and-brother-gray.svg"); }
+.form-input__checkbox-checker--b_c {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/chief-sitting-behind-a-desktop-gray.svg"); }
+.form-input__checkbox-checker--nothing {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/cancel-gray.svg"); }
+.form-input__checkbox-checker--illness-free {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/sick-gray.svg"); }
+.form-input__checkbox-checker--fitting-jeans {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/trousers.svg"); }
+.form-input__checkbox-checker--having-more {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/heart.svg"); }
+.form-input__checkbox-checker--avoiding-muscle {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/men-with-knee-pain.svg"); }
+.form-input__checkbox-checker--feeling-young {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/male.svg"); }
+.form-input__checkbox-checker--keep-mind {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/brain-gray.svg"); }
+.form-input__checkbox-checker--more-active {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/happy.svg"); }
+.form-input__checkbox-checker--stay-healthy {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/parents.svg"); }
+.form-input__checkbox-checker--beach-body {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/body-black.svg"); }
+.form-input__checkbox-checker--impress-partner {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/superman-gray.svg"); }
+.form-input__checkbox {
+  display: none; }
+.form-input__checkbox:checked + .form-input__checkbox-checker {
+  background-color: #e51e1e;
+  -webkit-box-shadow: inset 0px 5px 7.83px 1.17px rgba(35, 31, 32, 0.3);
+  box-shadow: inset 0px 5px 7.83px 1.17px rgba(35, 31, 32, 0.3);
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/man-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--sex-woman {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/girl-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--clock {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/clock-circular-outline-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--family {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/family-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--question-man {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/man-thinking-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--money {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/euro-bag-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--quit {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/exit-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--wheel {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/male-cartoon-on-wheel-chair-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--fitness {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/male-bodybuilder-silhouette-flexing-muscles-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--partner {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/female-and-male-shapes-silhouettes-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--kids {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/basketball-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--parents {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/old-gyus-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--friends {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/group-of-men-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--b_s {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/sister-and-brother-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--b_c {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/chief-sitting-behind-a-desktop-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--nothing {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/4/cancel-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--illness-free {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/sick-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--fitting-jeans {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/trousers-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--having-more {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/heart-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--avoiding-muscle {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/men-with-knee-pain-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--feeling-young {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/male-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--keep-mind {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/brain-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--more-active {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/happy-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--stay-healthy {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/parents-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--beach-body {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/body-white.svg"); }
+.form-input__checkbox:checked + .form-input__checkbox-checker--impress-partner {
+  background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/icons/5/superman-white.svg"); }
+
+.slider {
+  -ms-flex-preferred-size: 50%;
+  flex-basis: 50%; }
+.slider-selection, .slider-track-high {
+  background: #d1d1d1;
+  border-radius: 25px;
+  -webkit-box-shadow: none;
+  box-shadow: none; }
+.slider-handle {
+  background: #eb1616;
+  top: -3px;
+  width: 26px;
+  height: 26px;
+  margin-left: -13px !important; }
+.slider .tooltip-inner {
+  padding: 3px 5px;
+  color: #fff;
+  text-align: center;
+  background-color: #898989;
+  border-radius: 4px;
+  font-size: 14px; }
+.slider .tooltip.top {
+  margin-top: -28px; }
+.slider .tooltip-main {
+  position: absolute;
+  display: none; }
+.slider .tooltip-main.in {
+  display: block; }
+.slider .tooltip-min {
+  display: none; }
+.slider .tooltip-max {
+  display: none; }
+
+.slider-selection.tick-slider-selection {
+  background-image: none; }
+
+.slider-tick,
+.slider-tick.in-selection {
+  background: #bababa;
+  opacity: 1; }
+
+.form-regrads__title {
+  font-size: 65px;
+  font-family: "Bebas Neue", Arial, sans-serif;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  color: #eb1616; }
+
+.form-regrads__description {
+  font-size: 33px;
+  margin-top: 30px;
+  text-align: center; }
+.form-regrads__description-new_line {
+  padding: 15px; }
+
+.social-links {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center; }
+
+.social-links__link {
+  margin: 0 10px;
+  margin-top: 40px; }
+
+.social-links__image {
+  width: 48px;
+  height: 48px; }
+
+.pc-hidden {
+  display: none; }
+
+@media screen and (max-width: 992px) {
+  .mobile-hidden {
+    display: none; }
+  .pc-hidden {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; }
+  .app__header {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center; }
+  .form {
+    width: 90%; }
+  .form-header {
+    padding: 18px 20px; }
+  .form-header .form-header__progress-bar {
+    margin-top: 15px; }
+  .form-header__title {
+    font-size: 46px;
+    margin-left: 0; }
+  .form-header--first-page {
+    background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background_first-page_m.png"); }
+  .form-header--second-page {
+    background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background_second-page_m.png"); }
+  .form-header--third-page {
+    background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background_third-page_m.png"); }
+  .form-header--fourth-page {
+    background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background_fourth-page_m.png"); }
+  .form-header--fifth-page {
+    background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background_fifth-page_m.png"); }
+  .form-header--final-page {
+    background-image: url("//kuwait-ems.nexfit.com/img/questionnaire/ar/background_final-page_m.png");
+    padding: 85px 60px; }
+  .form-header__title-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: center; }
+  .form-header__part {
+    margin-left: 0;
+    font-size: 28px;
+    font-weight: normal; }
+  .form-header__description {
+    font-size: 42px;
+    text-align: center;
+    font-weight: normal; }
+  .header__instagram-container {
+    display: none; }
+  .form-body {
+    padding: 15px 20px 30px; }
+  .form-input {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column; }
+  .form-input__input {
+    width: 100%; }
+  .form-input__input,
+  .form-input__checkbox-area {
+    margin-top: 10px; }
+  .form-input__subtitle {
+    font-size: 20px;
+    text-align: center; }
+  .form-input--subtitle {
+    padding-bottom: 18px;
+    margin-bottom: 0px;
+    margin-top: 30px; }
+  .form-input__range-left,
+  .form-input__range-right {
+    -ms-flex-preferred-size: 45%;
+    flex-basis: 45%;
+    font-size: 15px;
+    text-align: center;
+    padding-top: 5px; }
+  .form-input__range-left {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    padding-left: 10px; }
+  .form-input__range-right {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    padding-right: 10px; }
+  .slider {
+    -webkit-box-ordinal-group: 0;
+    -ms-flex-order: -1;
+    order: -1;
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%; }
+  .form-input--range {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between; }
+  .form-input__solo-image {
+    -webkit-box-ordinal-group: -1;
+    -ms-flex-order: -2;
+    order: -2;
+    padding-bottom: 10px; }
+  .slider-tick-label-container {
+    white-space: normal; }
+  .form-input--range-one-line {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row; }
+  .form-input__checkbox-area {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap; }
+  .form-input__checkbox-label {
+    font-size: 15px; }
+  .form-input__checkbox-container--with-hight-paddins {
+    padding: 10px; }
+  .form-regrads__title {
+    padding-top: 10px;
+    font-size: 48px; }
+  .form-regrads__description {
+    font-size: 25px; }
+  .slider .tooltip-main {
+    display: block !important; }
+  .form-input--range-one-line .slider .tooltip-main {
+    display: none !important; }
+  .form-input__range-left:not(.form-input__range-left--with-image) {
+    direction: rtl; } }
+
+label.error {
+  margin-top: 10px; }
+
+.form {
+  display: none; }
+
+.form--first-page {
+  display: block; }
+
+@media (min-width: 992px) and (max-width: 1322px) {
+  .app__header {
+    width: 100%;
+    max-width: 80%;
+    margin: 0 auto; } }
+
+/*# sourceMappingURL=style.bundle.22e4fd6a8b68f87c577b.css.map*/
